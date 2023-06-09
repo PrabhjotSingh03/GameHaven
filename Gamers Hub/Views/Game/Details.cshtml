@@ -1,0 +1,175 @@
+﻿@model Gamers_Hub.Models.ViewModels.DetailsGame
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <div class="detailCont">
+
+        <h2>@Model.SelectedGame.GameName</h2>
+
+        <div class="assoClient">
+            <h3>Clients associated with <strong>'@Model.SelectedGame.GameName'</strong></h3>
+            <div class="clientsContainer">
+                <table id="SlctTable">
+                    <tr>
+                        <th id="thID">Buyer ID</th>
+                        <th id="thName">Buyer Info</th>
+                    </tr>
+                    @foreach (var Buyer in Model.LinkedBuyers)
+                    {
+                        <tr>
+                            <td id="tddID"><a href="/Buyer/Details/@Buyer.BuyerID">@Buyer.BuyerID</a></td>
+                            <td id="tddName"><a href="/Buyer/Details/@Buyer.BuyerID">@Buyer.BuyerName - @Buyer.BuyerEmail</a><a href="/Movie/UnAssociate/@Model.SelectedGame.GameID?BuyerID=@Buyer.BuyerID">[x]</a></td>
+                        </tr>
+}
+                </table>
+            </div>
+            <div class="addFav">
+                <h4>Add a new buyer who buyed <strong>'@Model.SelectedGame.GameName'</strong></h4>
+                <form method="POST" action="/Game/Associate/@Model.SelectedGame.GameID">
+                    <select name="BuyerID">
+                        @foreach (var Buyer in Model.AvailableBuyers)
+                        {
+                            <option value="@Buyer.BuyerID">@Buyer.BuyerName - @Buyer.BuyerEmail</option>
+}
+                    </select>
+                    <input type="submit" value="Link Buyer" id="linkBtn" />
+                </form>
+            </div>
+
+            <div class="btnContainer">
+                <div class="btn backBtn">
+                    <a href="/Game/List">Back</a>
+                </div>
+                <div class="btn editBtn">
+                    <a href="/Game/Edit/@Model.SelectedGame.GameID">Update</a>
+                </div>
+                <div class="btn delBtn">
+                    <a href="/Game/DeleteConfirm/@Model.SelectedGame.GameID">Delete</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="details">
+        <p>Game ID: @Model.SelectedGame.GameID</p>
+        <p>GameName: @Model.SelectedGame.GameName</p>
+        <p>Release Year: @Model.SelectedGame.ReleaseYear</p>
+        <p>Description: @Model.SelectedGame.Description</p>
+        <p>Genre: @Model.SelectedGame.GenreName</p>
+        <p>Price: @Model.SelectedGame.Price</p>
+    </div>
+
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        margin-top: 7em;
+        margin-left: 1.5em;
+        font-weight: 600;
+        font-family: Arial, sans-serif;
+        background: #134DED;
+        background: linear-gradient(to top right, #121FCF 0%, #CF1512 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btnContainer {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-around;
+        margin-top: 5em;
+    }
+
+    .btn {
+        border: none;
+        border-radius: 5px;
+        color: black;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .delBtn {
+        background-color: darkred;
+        transition: box-shadow 0.2s ease-in-out;
+    }
+
+        .delBtn:hover {
+            background-color: orangered;
+        }
+
+    .editBtn {
+        background-color: greenyellow;
+        border: 2px solid #00cc00;
+        transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    }
+
+        .editBtn:hover {
+            background-color: mediumspringgreen;
+            border-color: #009900;
+        }
+
+    .backBtn {
+        background-color: darkblue;
+        position: relative;
+    }
+
+        .backBtn:hover {
+            background-color: deepskyblue;
+            border-color: #009900;
+        }
+
+    .container {
+        max-width: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    }
+
+    .detailCont {
+        display: flex;
+        flex-flow: row;
+    }
+
+    .assobuyer {
+        margin-left: 5em;
+        margin-top: 7em;
+    }
+
+    #SlctTable {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 3em;
+        white-space: nowrap;
+    }
+
+    .details {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        margin-top: 2em;
+        margin-bottom: 1.5em;
+        font-weight: 800;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #134DED 0%, #21B8CF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    #thID, #thName {
+        width: 100px;
+        text-align: center;
+    }
+</style>
+

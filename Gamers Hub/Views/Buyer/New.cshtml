@@ -1,0 +1,60 @@
+﻿@{ 
+    ViewBag.Title = "Create"; 
+}
+
+<h1>Gamers Hub</h1>
+<h3>Create Buyer</h3>
+
+
+<form action="/Buyer/Create" method="POST">
+    <div class="addInput">
+        <label>Buyer Name:</label> <input type="text" name="BuyerName" />
+    </div>
+    <div class="addInput">
+        <label>Buyer Email:</label> <input type="text" name="BuyerEmail" />
+    </div>
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Create Buyer" id="addBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Buyer/List">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #addBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .addInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>
+

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Gamers_Hub.Models.GenreDto>
+
+@{
+    ViewBag.Title = "New";
+}
+
+<h1>Gamers Hub</h1>
+<h2>Add A New Game</h2>
+
+<form action="/Game/Create" method="POST">
+    <div class="addInput">
+        <label>Game Name:</label> <input type="text" name="GameName" />
+    </div>
+    <div class="addInput">
+        <label>Release Year:</label> <input type="number" name="ReleaseYear" />
+    </div>
+    <div class="addInput">
+        <label>Description:</label> <input type="text" name="Description" />
+    </div>
+    <div class="addInput">
+        <label>Price:</label> <input type="number" name="Price" />
+    </div>
+    <div class="addInput">
+        <label>Game Genre:</label>
+        <select name="GenreID">
+            @foreach (var genre in Model)
+             {
+                <option value="@genre.GenreID">@genre.GenreName</option>           
+             }
+        </select>
+    </div>
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Add Game" id="addBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Game/List">Back to List</a>
+        </div>
+    </div>
+</form>
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #addBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .addInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    .upBtn {
+        margin: 0;
+        position: absolute;
+        top: 60%;
+        left: 20%;
+    }
+</style>
+

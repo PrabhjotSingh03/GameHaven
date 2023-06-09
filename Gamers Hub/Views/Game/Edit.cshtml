@@ -1,0 +1,93 @@
+﻿@model Gamers_Hub.Models.ViewModels.UpdateGame
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h1>Gamers Hub</h1>
+<h2>Update A Game</h2>
+
+<form action="/Game/Update/@Model.SelectedGame.GameID" method="POST">
+    <div style="display:none;">
+        @* Pass through the Game ID *@
+        <input type="text" name="GameID" value="@Model.SelectedGame.GameID" />
+    </div>
+    <div class="editInput">
+        <label>Game Name:</label> <input type="text" name="GameName" value="@Model.SelectedGame.GameName" />
+    </div>
+    <div class="editInput">
+        <label>Release Year:</label> <input type="number" name="ReleaseYear" value="@Model.SelectedGame.ReleaseYear" />
+    </div>
+    <div class="editInput">
+        <label>Game Description:</label> <input type="text" name="Description" value="@Model.SelectedGame.Description" />
+    </div>
+    <div class="editInput">
+        <label>Price:</label> <input type="number" name="Price" value="@Model.SelectedGame.Price" />
+    </div>
+    <div class="editInput">
+        <label>Game Genre:</label>
+
+        <select name="GenreID">
+            @foreach (var genre in Model.GenreOptions)
+            {
+                string selected = "";
+                if (genre.GenreID == Model.SelectedGame.GenreID)
+                {
+                    selected = "selected";
+                }
+                <option value="@genre.GenreID" @selected>@genre.GenreName</option>            
+            }
+        </select>
+    </div>
+
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Update Game" id="editBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Game/List">Back to List</a>
+        </div>
+    </div>
+</form>
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    .upBtn {
+        margin: 0;
+        position: absolute;
+        top: 60%;
+        left: 20%;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .editInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>
+

@@ -1,0 +1,60 @@
+﻿@model Gamers_Hub.Models.GenreDto
+
+@{ 
+    ViewBag.Title = "Edit"; 
+    }
+
+<h1>Gamers Hub</h1>
+<h2>Update Genre <strong>'@Model.GenreName'</strong></h2>
+
+<form action="/Genre/Update/@Model.GenreID" method="POST">
+    <div style="display:none;">
+        <input type="text" name="GenreID" value="@Model.GenreID" />
+    </div>
+    <div class="editInput">
+        <label>Genre Name:</label> <input type="text" name="GenreName" value="@Model.GenreName" />
+    </div>
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Update Genre" id="editBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Genre/List">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .editInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>

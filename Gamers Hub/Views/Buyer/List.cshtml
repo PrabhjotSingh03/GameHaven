@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Gamers_Hub.Models.BuyerDto>
+
+@{ 
+    ViewBag.Title = "List"; 
+}
+
+<h1>Gamers Hub</h1>
+<h3>Buyer</h3>
+
+<nav id="add">
+    <a class="navlink" href="/Buyer/New">New Buyer</a>
+</nav>
+
+
+<table id="BuyerListTable">
+    <tr>
+        <th id="thID">Buyer ID</th>
+        <th id="thBuyerName">Buyer Name</th>
+        <th id="thBuyerEmail">Buyer Email</th>
+    </tr>
+    @foreach (var buyer in Model)
+    {
+<tr>
+    <td id="tdID"><a href="/Buyer/Details/@buyer.BuyerID">@buyer.BuyerID</a></td>
+    <td id="tdBuyerName"><a href="/Buyer/Details/@buyer.BuyerID">@buyer.BuyerName</a></td>
+    <td id="tdBuyerEmail"><a href="/Buyer/Details/@buyer.BuyerID">@buyer.BuyerEmail</a></td>
+</tr>}
+</table>
+
+
+<style>
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    h3 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+        text-align: center;
+    }
+
+    #add {
+        text-align: center;
+        margin: 1em auto;
+    }
+
+    .navlink {
+        padding: 0.2em;
+        border: 1px solid;
+        border-radius: 5px;
+    }
+
+    #BuyerListTable {
+        border-style: solid;
+        margin-left: auto;
+        margin-right: auto;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    #thID, 
+    #tdID {
+        width: 100px;
+        text-align: center;
+    }
+
+    #thBuyerName,
+    #tdBuyerName {
+        width: 340px;
+        text-align: center;
+    }
+
+    #thBuyerEmail, 
+    #tdBuyerEmail {
+        width: 240px;
+        text-align: center;
+    }
+
+    th, 
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+

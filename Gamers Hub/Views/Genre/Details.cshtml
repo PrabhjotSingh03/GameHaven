@@ -1,0 +1,147 @@
+﻿@model Gamers_Hub.Models.ViewModels.DetailsGenre
+
+@{ 
+    ViewBag.Title = "View"; 
+    }
+
+<h1>Gamers Hub</h1>
+<h3><strong>'@Model.SelectedGenre.GenreName'</strong> Genre Details</h3>
+
+<div id="btnContainer">
+    <a id="backBtn" href="/Genre/List">Go back to list</a>
+    <a id="editBtn" href="/Genre/Edit/@Model.SelectedGenre.GenreID">Update Genre</a>
+    <a id="delBtn" href="/Genre/DeleteConfirm/@Model.SelectedGenre.GenreID">Delete Genre</a>
+</div>
+
+<div>
+    <table id="GenreListTable">
+        <tr>
+            <th id="thID">Genre ID</th>
+            <th id="thName">Genre Name</th>
+        </tr>
+        <tr>
+            <td id="tdID"><a href="/Genre/Details/@Model.SelectedGenre.GenreID">@Model.SelectedGenre.GenreID</a></td>
+            <td id="tdName"><a href="/Genre/Details/@Model.SelectedGenre.GenreID">@Model.SelectedGenre.GenreName</a></td>
+        </tr>
+    </table>
+    <h3>Games belong to this Genre <strong>'@Model.SelectedGenre.GenreName'</strong></h3>
+    <div class="relatedGenre">
+        <table id="GameListTable">
+            <tr>
+                <th id="trID">Game ID</th>
+                <th id="trName">Game Name</th>
+                <th id="trReleaseYear">Release Year</th>
+                <th id="trDescription">Description</th>
+                <th id="trPrice">Price</th>
+            </tr>
+            @foreach (var game in Model.RelatedGames)
+            {
+        <tr>
+            <td id="tddID"><a href="/Game/Details/@game.GameID">@game.GameID</a></td>
+            <td id="tddName"><a href="/Game/Details/@game.GameID">@game.GameName</a></td>
+            <td id="tddReleaseYear"><a href="/Game/Details/@game.GameID">@game.ReleaseYear</a></td>
+            <td id="tddDescription"><a href="/Game/Details/@game.GameID">@game.Description</a></td>
+            <td id="tddPrice"><a href="/Game/Details/@game.GameID">@game.Price</a></td>
+        </tr>            
+             }
+        </table>
+    </div>
+</div>
+
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+
+    h3 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+        text-align: center;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        margin-bottom: 1.5em;
+    }
+
+    #backBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: gray;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin: 1em 4em 0 4em;
+        padding: 0.3em 1em;
+        color: blue;
+    }
+
+    #delBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: red;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    #thID, #tdID, 
+    #trID, #tddID {
+        width: 100px;
+        text-align: center;
+    }
+
+    #trName, #tddName {
+        width: 340px;
+        text-align: center;
+    }
+
+    #trDescription, 
+    #tddDescription {
+        width: 240px;
+        text-align: center;
+    }
+
+    #trReleaseYear,
+    #tddReleaseYear {
+        width: 150px;
+        text-align: center;
+    }
+
+    #trPrice, #tddPrice {
+        width: 80px;
+        text-align: center;
+    }
+
+    #thName, #tdName {
+        width: 240px;
+        text-align: center;
+    }
+
+    #GenreListTable, 
+    #GameListTable {
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+

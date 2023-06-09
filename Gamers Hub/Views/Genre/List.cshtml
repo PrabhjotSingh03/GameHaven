@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Gamers_Hub.Models.GenreDto>
+
+@{
+    ViewBag.Title = "List"; 
+}
+
+<h1>Gamers Hub</h1>
+<h2>Genre List</h2>
+
+<nav id="add">
+    <a class="navlink" href="/Genre/New">New Genre</a>
+</nav>
+
+<table id="GenreListTable">
+    <tr>
+        <th id="thID">Genre ID</th>
+        <th id="thName">Genre Name</th>
+    </tr>
+    @foreach (var genre in Model)
+    {
+<tr>
+    <td id="tdID"><a href="/Genre/Details/@genre.GenreID">@genre.GenreID</a></td>
+    <td id="tdName"><a href="/Genre/Details/@genre.GenreID">@genre.GenreName</a></td>
+</tr>}
+</table>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+
+    h2 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+    }
+
+    #add {
+        text-align: center;
+        margin: 1em auto;
+    }
+
+    .navlink {
+        padding: 0.2em;
+        border: 1px solid;
+        border-radius: 5px;
+    }
+
+    #GenreListTable {
+        border-style: solid;
+        margin-left: auto;
+        margin-right: auto;
+        table-layout: fixed;
+        width: 30%;
+    }
+
+    #thID, #tdID {
+        width: 100px;
+        text-align: center;
+    }
+
+    #thName, #tdName {
+        width: 240px;
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+</style>

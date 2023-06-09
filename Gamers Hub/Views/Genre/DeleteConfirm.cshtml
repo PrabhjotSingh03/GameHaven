@@ -1,0 +1,98 @@
+﻿@model Gamers_Hub.Models.GenreDto
+
+@{ 
+    ViewBag.Title = "DeleteConfirm"; 
+    }
+
+<h1>Gamers Hub</h1>
+<h2>Are you sure you want to delete this Genre <strong>'@Model.GenreName'</strong>?</h2>
+
+<div>
+    <table id="GenreListTable">
+        <tr>
+            <th id="thID">Genre ID</th>
+            <th id="thName">Genre Name</th>
+        </tr>
+        <tr>
+            <td id="tdID"><a href="/Genre/Details/@Model.GenreID">@Model.GenreID</a></td>
+            <td id="tdName"><a href="/Genre/Details/@Model.GenreID">@Model.GenreName</a></td>
+        </tr>
+    </table>
+</div>
+
+<div id="btnContainer">
+    <div>
+        <a href="/Genre/List" id="backbtn">Cancel</a>
+    </div>
+    <div>
+        <form action="/Genre/Delete/@Model.GenreID" method="POST">
+            <input type="submit" value="Confirm Delete" id="delBtn" />
+        </form>
+    </div>
+</div>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+
+    h2 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+    }
+
+    #GenreListTable {
+        border-style: solid;
+        margin-left: auto;
+        margin-right: auto;
+        table-layout: fixed;
+        width: 40%;
+    }
+
+    #thID, #tdID {
+        width: 100px;
+        text-align: center;
+    }
+
+    #thName, #tdName {
+        width: 240px;
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    #delBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: red;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-right: 4em;
+        padding: 0.64em;
+        color: blue;
+    }
+</style>

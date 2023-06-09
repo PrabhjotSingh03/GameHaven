@@ -1,0 +1,64 @@
+﻿@model Gamers_Hub.Models.BuyerDto
+
+@{ 
+    ViewBag.Title = "Edit"; 
+}
+<h1>Gamers Hub</h1>
+<h2>Update Buyer <strong>'@Model.BuyerName'</strong></h2>
+
+
+
+<form action="/Buyer/Update/@Model.BuyerID" method="POST">
+    <div style="display:none;">
+        <input type="text" name="BuyerID" value="@Model.BuyerID" />
+    </div>
+    <div class="editInput">
+        <label>Buyer Name:</label> <input type="text" name="BuyerFirstName" value="@Model.BuyerName" />
+    </div>
+    <div class="editInput">
+        <label>Buyer Email:</label> <input type="text" name="BuyerEmail" value="@Model.BuyerEmail" />
+    </div>
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Update Buyer" id="editBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Buyer/List">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .editInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>

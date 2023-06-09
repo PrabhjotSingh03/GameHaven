@@ -1,0 +1,146 @@
+﻿@model Gamers_Hub.Models.ViewModels.DetailsBuyer
+
+@{ 
+    ViewBag.Title = "View"; 
+}
+
+<h1>Gamers Hub</h1>
+<h3><strong>'@Model.SelectedBuyer.BuyerName'</strong> Buyer Details</h3>
+
+<div id="btnContainer">
+    <a id="backBtn" href="/Buyer/List">Go back to list</a>
+    <a id="editBtn" href="/Buyer/Edit/@Model.SelectedBuyer.BuyerID">Update Buyer</a>
+    <a id="delBtn" href="/Buyer/DeleteConfirm/@Model.SelectedBuyer.BuyerID">Delete Buyer</a>
+</div>
+
+<h2><strong>@Model.SelectedBuyer.BuyerName</strong>'s Game List</h2>
+
+<div>
+    <table id="GameListTable">
+        <tr>
+            <th id="thID">Game ID</th>
+            <th id="thName">Name</th>
+            <th id="thReleaseYear">Release Year</th>
+            <th id="thDescription">Description</th>
+            <th id="thPrice">Price</th>
+            <th id="thGenre">Genre</th>
+        </tr>
+        @foreach (var game in Model.KeptGames)
+        {
+    <tr>
+        <td id="tdID"><a href="/Game/Details/@game.GameID">@game.GameID</a></td>
+        <td id="tdName"><a href="/Game/Details/@game.GameID">@game.GameName</a></td>
+        <td id="tdReleaseYear"><a href="/Game/Details/@game.GameID">@game.ReleaseYear</a></td>
+        <td id="tdDescription"><a href="/Game/Details/@game.GameID">@game.Description</a></td>
+        <td id="tdPrice"><a href="/Game/Details/@game.GameID">@game.Price</a></td>
+        <td id="tdGenre"><a href="/Genre/Details/@game.GenreID">@game.GenreName</a></td>
+    </tr>}
+    </table>
+</div>
+
+
+<style>
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    h2 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 500;
+        margin: 1em auto;
+        text-align: center;
+    }
+
+    h3 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+        text-align: center;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        margin-bottom: 1.5em;
+    }
+
+    #backBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: gray;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin: 1em 4em 0 4em;
+        padding: 0.3em 1em;
+        color: blue;
+    }
+
+    #delBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: red;
+    }
+
+    #linkBtn {
+        color: green;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    #thID, #tdID, 
+    #thGenre, #tdGenre {
+        width: 100px;
+        text-align: center;
+    }
+
+    #thName, 
+    #tdName {
+        width: 340px;
+        text-align: center;
+    }
+
+    #thDescription,
+    #tdDescription {
+        width: 240px;
+        text-align: center;
+    }
+
+    #thReleaseYear, 
+    #tdReleaseYear {
+        width: 150px;
+        text-align: center;
+    }
+
+    #thPrice, 
+    #tdPrice {
+        width: 80px;
+        text-align: center;
+    }
+
+    #GameListTable {
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .buyersContainer {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+
+</style>
