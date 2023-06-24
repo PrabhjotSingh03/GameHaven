@@ -7,9 +7,21 @@
 <div class="container">
     <div class="detailCont">
 
+        @{
+            string imageurl = "/Content/Images/Games/default.jpg";
+            if (Model.SelectedGame.GameHasPic)
+            {
+                imageurl = "/Content/Images/Games/" + Model.SelectedGame.GameID + "." + Model.SelectedGame.PicExtension;
+            }
+        }
+
+        <div class="game-poster">
+            <div><img alt="@Model.SelectedGame.GameName" src="@imageurl" /></div>
+        </div>
+
         <h2>@Model.SelectedGame.GameName</h2>
 
-        <div class="assoClient">
+        <div class="assoBuyer">
             <h3>Clients associated with <strong>'@Model.SelectedGame.GameName'</strong></h3>
             <div class="clientsContainer">
                 <table id="SlctTable">
@@ -23,7 +35,7 @@
                             <td id="tddID"><a href="/Buyer/Details/@Buyer.BuyerID">@Buyer.BuyerID</a></td>
                             <td id="tddName"><a href="/Buyer/Details/@Buyer.BuyerID">@Buyer.BuyerName - @Buyer.BuyerEmail</a><a href="/Movie/UnAssociate/@Model.SelectedGame.GameID?BuyerID=@Buyer.BuyerID">[x]</a></td>
                         </tr>
-}
+                    }
                 </table>
             </div>
             <div class="addFav">
@@ -33,7 +45,7 @@
                         @foreach (var Buyer in Model.AvailableBuyers)
                         {
                             <option value="@Buyer.BuyerID">@Buyer.BuyerName - @Buyer.BuyerEmail</option>
-}
+                        }
                     </select>
                     <input type="submit" value="Link Buyer" id="linkBtn" />
                 </form>
@@ -105,30 +117,30 @@
         transition: box-shadow 0.2s ease-in-out;
     }
 
-        .delBtn:hover {
-            background-color: orangered;
-        }
+    .delBtn:hover {
+        background-color: orangered;
+    }
 
     .editBtn {
-        background-color: greenyellow;
+        background-color: green;
         border: 2px solid #00cc00;
         transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
     }
 
-        .editBtn:hover {
-            background-color: mediumspringgreen;
-            border-color: #009900;
-        }
+    .editBtn:hover {
+          background-color: mediumspringgreen;
+          border-color: #009900;
+     }
 
     .backBtn {
         background-color: darkblue;
         position: relative;
     }
 
-        .backBtn:hover {
-            background-color: deepskyblue;
-            border-color: #009900;
-        }
+    .backBtn:hover {
+        background-color: deepskyblue;
+        border-color: #009900;
+    }
 
     .container {
         max-width: 100%;
@@ -171,5 +183,14 @@
         width: 100px;
         text-align: center;
     }
+
+    .game-poster {
+        max-width: 300px;
+        margin-right: 30px;
+    }
+
+        .game-poster img {
+            max-width: 350px;
+        }
 </style>
 

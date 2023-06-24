@@ -35,11 +35,14 @@
                 {
                     selected = "selected";
                 }
-                <option value="@genre.GenreID" @selected>@genre.GenreName</option>            
+                <option value="@genre.GenreID" @selected>@genre.GenreName</option>
+
             }
         </select>
     </div>
-
+    <div class="editInput updateBtn">
+        <input type="file" name="GamePic" />
+    </div>
     <div id="btnContainer">
         <div>
             <input type="submit" value="Update Game" id="editBtn" />
@@ -55,7 +58,7 @@
         text-align: center;
     }
 
-    .upBtn {
+    .updateBtn {
         margin: 0;
         position: absolute;
         top: 60%;

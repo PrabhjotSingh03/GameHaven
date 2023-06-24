@@ -206,5 +206,53 @@ namespace Gamers_Hub.Controllers
                 return RedirectToAction("Error");
             }
         }
+
+        // POST: Game/Update/1
+        /// <summary>
+        /// Add upload game picture funtion
+        /// </summary>
+        /// Updated games information and redirect to the game List page
+        /// User can update the game without uploading a picture 
+        [HttpPost]
+        public ActionResult Update(int id, Game Game, HttpPostedFileBase GamePic)
+        {
+            // upload Game pictures method
+            // add a feature to uplaod image file to the server using POST request(in the Update function)
+
+            string url = "gamedata/updategame/" + id;
+            string jsonpayload = jss.Serialize(Game);
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            Debug.WriteLine(content);
+
+
+            //server response is OK, and we have Game picture data(file exists)
+            if (response.IsSuccessStatusCode && GamePic != null)
+            {
+                //Seperate request for updating the Game picture (when user update Game without providing pictures) 
+                //Debug.WriteLine("Update picture");
+
+                //set up picture url
+                url = "GameData/UploadGamePic/" + id;
+
+                MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                HttpContent imagecontent = new StreamContent(GamePic.InputStream);
+                requestcontent.Add(imagecontent, "GamePic", GamePic.FileName);
+                response = client.PostAsync(url, requestcontent).Result;
+
+                return RedirectToAction("List");
+            }
+            else if (response.IsSuccessStatusCode)
+            {
+                //server response is OK, but no picture uploaded(upload picture is a seperate add-on feature)
+                return RedirectToAction("List");
+            }
+            else
+            {
+
+                return RedirectToAction("Error");
+            }
+        }
     }
 }

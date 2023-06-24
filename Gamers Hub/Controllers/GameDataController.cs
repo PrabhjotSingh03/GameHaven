@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Gamers_Hub.Models;
 using System.Diagnostics;
+using System.IO;    // needed for updating pictures 
+using System.Web;
 
 namespace Gamers_Hub.Controllers
 {
@@ -35,7 +37,9 @@ namespace Gamers_Hub.Controllers
                 Description = a.Description,
                 Price = a.Price,
                 GenreID = a.Genre.GenreID,
-                GenreName = a.Genre.GenreName
+                GenreName = a.Genre.GenreName,
+                GameHasPic = a.GameHasPic,
+                PicExtension = a.PicExtension,
             }));
             return Ok(GameDtos);
         }
@@ -62,7 +66,9 @@ namespace Gamers_Hub.Controllers
                 Description = a.Description,
                 Price = a.Price,
                 GenreID = a.Genre.GenreID,
-                GenreName = a.Genre.GenreName
+                GenreName = a.Genre.GenreName,
+                GameHasPic = a.GameHasPic,
+                PicExtension = a.PicExtension,
             }));
 
             return Ok(GameDtos);
@@ -173,7 +179,9 @@ namespace Gamers_Hub.Controllers
                 Description = Game.Description,
                 Price = Game.Price,
                 GenreID = Game.Genre.GenreID,
-                GenreName = Game.Genre.GenreName
+                GenreName = Game.Genre.GenreName,
+                GameHasPic = Game.GameHasPic,
+                PicExtension = Game.PicExtension,
             };
             if (Game == null)
             {
@@ -202,6 +210,8 @@ namespace Gamers_Hub.Controllers
             }
 
             db.Entry(Game).State = EntityState.Modified;
+            db.Entry(Game).Property(a => a.GameHasPic).IsModified = false;
+            db.Entry(Game).Property(a => a.PicExtension).IsModified = false;
 
             try
             {
@@ -221,6 +231,82 @@ namespace Gamers_Hub.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        /// <summary>
+        /// upload to the server, set GameHasPic status
+        /// POST: api/GameData/UpdateGamePic/1
+        [HttpPost]
+        public IHttpActionResult UploadGamePic(int id)
+        {
+
+            bool gameHaspic = false;
+            string picextension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                // check the number of image files received 
+                int numfiles = HttpContext.Current.Request.Files.Count;
+
+                //Check if a file is posted
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var gamePic = HttpContext.Current.Request.Files[0];
+                    //Check if the file is empty
+                    if (gamePic.ContentLength > 0)
+                    {
+                        //set up valid image file types (file extensions)
+                        var imgTypes = new[] { "jpeg", "jpg", "png", "gif", "jfif", "webp" };
+                        var extension = Path.GetExtension(gamePic.FileName).Substring(1);
+                        //Check the extension of the file
+                        if (imgTypes.Contains(extension))
+                        {
+                            try
+                            {
+                                string fileName = id + "." + extension;
+
+                                //file path to ~/Content/Images/Games/{id}.{extension}
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Images/Games/"), fileName);
+
+                                //save the file to the path with 'fileName'
+                                gamePic.SaveAs(path);
+
+                                //game image was uploaded correctly
+                                gameHaspic = true;
+                                picextension = extension;
+
+                                //update the game picture related data
+                                Game Selectedgame = db.Games.Find(id);
+                                Debug.WriteLine("Selectedgame.GameHasPic before update: " + Selectedgame.GameHasPic);
+                                Selectedgame.GameHasPic = gameHaspic;
+                                Selectedgame.PicExtension = picextension;
+                                db.Entry(Selectedgame).State = EntityState.Modified;
+                                Debug.WriteLine("Selectedgame.GameHasPic after update: " + Selectedgame.GameHasPic);
+
+                                db.SaveChanges();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                // check for error
+                                Debug.WriteLine(" save failed");
+                                Debug.WriteLine("Exception:" + ex);
+                                return BadRequest();
+                            }
+                        }
+                    }
+
+                }
+
+                return Ok();
+            }
+            else
+            {
+                //not multipart form data
+                return BadRequest();
+
+            }
+
+        }
+
 
         /// Add a new Game
         /// <param name="Game">Game json data</param>
@@ -250,6 +336,15 @@ namespace Gamers_Hub.Controllers
             if (Game == null)
             {
                 return NotFound();
+            }
+            if (Game.GameHasPic && Game.PicExtension != "")
+            {
+                //delete game picture from path
+                string path = HttpContext.Current.Server.MapPath("~/Content/Images/Games/" + id + "." + Game.PicExtension);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
             }
 
             db.Games.Remove(Game);

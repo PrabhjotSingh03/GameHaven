@@ -24,10 +24,14 @@
         <label>Game Genre:</label>
         <select name="GenreID">
             @foreach (var genre in Model)
-             {
-                <option value="@genre.GenreID">@genre.GenreName</option>           
-             }
+            {
+                <option value="@genre.GenreID">@genre.GenreName</option>
+
+            }
         </select>
+        <div class="editInput updateBtn">
+            <input type="file" name="GamePic" />
+        </div>
     </div>
     <div id="btnContainer">
         <div>
@@ -72,7 +76,7 @@
         justify-content: center;
     }
 
-    .upBtn {
+    .updateBtn {
         margin: 0;
         position: absolute;
         top: 60%;

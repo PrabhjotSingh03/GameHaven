@@ -26,6 +26,8 @@
                         ReleaseYear = c.Int(nullable: false),
                         Description = c.String(),
                         Price = c.Int(nullable: false),
+                        GameHasPic = c.Boolean(nullable: false),
+                        PicExtension = c.String(),
                         GenreID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.GameID)
