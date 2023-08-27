@@ -1,4 +1,4 @@
-# Gamers-Hub
+# GameHaven
 A Minimal Viable Product (MVP) in ASP .NET C#
 
 1. Utilization of Code-First Migrations for creating the database.
