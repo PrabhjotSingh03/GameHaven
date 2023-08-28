@@ -24,12 +24,9 @@ namespace Gamers_Hub.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
         // new entity to the system
         public DbSet<Game> Games { get; set; }
-
         public DbSet<Genre> Genres { get; set; }
-
         public DbSet<Buyer> Buyers { get; set; }
         public static ApplicationDbContext Create()
         {

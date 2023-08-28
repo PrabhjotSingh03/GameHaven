@@ -124,11 +124,11 @@ namespace Gamers_Hub.Controllers
 
         // POST: Buyer/Update/5
         [HttpPost]
-        public ActionResult Update(int id, Buyer Client)
+        public ActionResult Update(int id, Buyer Buyer)
         {
             // update a specific Buyer
             string url = "buyerdata/updatebuyer/" + id;
-            string jsonpayload = jss.Serialize(Client);
+            string jsonpayload = jss.Serialize(Buyer);
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
@@ -158,7 +158,7 @@ namespace Gamers_Hub.Controllers
 
         // POST: Buyer/Delete/5
         [HttpPost]
-        public ActionResult Buyer(int id)
+        public ActionResult Delete(int id)
         {
             // delete a specific Buyer
             string url = "buyerdata/deletebuyer/" + id;

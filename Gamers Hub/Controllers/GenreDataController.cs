@@ -117,6 +117,7 @@ namespace Gamers_Hub.Controllers
         /// <param name="id">primary key of the Genre</param>
         /// api/GenreData/DeleteGenre/5
         [ResponseType(typeof(Genre))]
+        [HttpPost]
         public IHttpActionResult DeleteGenre(int id)
         {
             Genre Genre = db.Genres.Find(id);

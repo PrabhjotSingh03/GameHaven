@@ -9,7 +9,6 @@ namespace Gamers_Hub.Models.ViewModels
     {
         public GameDto SelectedGame { get; set; }
         public IEnumerable<BuyerDto> LinkedBuyers { get; set; }
-
         public IEnumerable<BuyerDto> AvailableBuyers { get; set; }
     }
 }

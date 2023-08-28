@@ -275,12 +275,10 @@ namespace Gamers_Hub.Controllers
 
                                 //update the game picture related data
                                 Game Selectedgame = db.Games.Find(id);
-                                Debug.WriteLine("Selectedgame.GameHasPic before update: " + Selectedgame.GameHasPic);
                                 Selectedgame.GameHasPic = gameHaspic;
                                 Selectedgame.PicExtension = picextension;
                                 db.Entry(Selectedgame).State = EntityState.Modified;
-                                Debug.WriteLine("Selectedgame.GameHasPic after update: " + Selectedgame.GameHasPic);
-
+                               
                                 db.SaveChanges();
 
                             }

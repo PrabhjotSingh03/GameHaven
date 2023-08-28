@@ -13,34 +13,51 @@ namespace Gamers_Hub.Controllers
 {
     public class GameController : Controller
     {
-
-        private static readonly HttpClient client;
+        private static readonly HttpClient Client;
         private JavaScriptSerializer jss = new JavaScriptSerializer();
 
         static GameController()
         {
-            // set up the base url address
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44340/api/");
-        }
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                //cookies are manually set in RequestHeader
+                UseCookies = false
+            };
 
+            Client = new HttpClient(handler);
+            Client.BaseAddress = new Uri("https://localhost:44340/api/");
+
+        }
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            //HTTP client is set up to be reused, otherwise it will exhaust server resources.
+            //This is a bit dangerous because a previously authenticated cookie could be cached for
+            //a follow-up request from someone else. Reset cookies in HTTP client before grabbing a new one.
+            Client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") Client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
         // GET: Game/List
         public ActionResult List()
         {
-            //communicate with BuyerData api to retrieve a list of Buyers
-            //curl https://localhost:44340/api/GameData/ListGames
-
+            //communicate with BuyerData api to retrieve a list of Buye
+            //curl: https://localhost:44340/api/GameData/ListGames
 
             string url = "GameData/ListGames";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            //Debug.WriteLine(response.StatusCode);
-
+            HttpResponseMessage response = Client.GetAsync(url).Result;
             IEnumerable<GameDto> Games = response.Content.ReadAsAsync<IEnumerable<GameDto>>().Result;
 
-            //Debug.WriteLine(games.Count());
-
-            // return to the 'Games' view page
             return View(Games);
         }
 
@@ -51,35 +68,31 @@ namespace Gamers_Hub.Controllers
 
             //communicate with Gamedata api to retrieve one specific game
             //curl https://localhost:44340/api/Gamedata/findGame/{id}
-
             string url = "Gamedata/findGame/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
+            HttpResponseMessage response = Client.GetAsync(url).Result;
 
             GameDto SelectedGame = response.Content.ReadAsAsync<GameDto>().Result;
-            //Debug.WriteLine("Game received : ");
-            //Debug.WriteLine(SelectedGame.GameName);
 
             // set up a ViewModel to show the relationship between games and buyers
             ViewModel.SelectedGame = SelectedGame;
 
             //show associated buyers with this game via ViewModel
             url = "buyerdata/listbuyersforgame/" + id;
-            response = client.GetAsync(url).Result;
+            response = Client.GetAsync(url).Result;
             IEnumerable<BuyerDto> LinkedBuyers = response.Content.ReadAsAsync<IEnumerable<BuyerDto>>().Result;
 
             ViewModel.LinkedBuyers = LinkedBuyers;
 
             // show unlinked buyer to this games
             url = "buyerdata/listbuyersnotinterestedgame/" + id;
-            response = client.GetAsync(url).Result;
+            response = Client.GetAsync(url).Result;
             IEnumerable<BuyerDto> AvailableBuyers = response.Content.ReadAsAsync<IEnumerable<BuyerDto>>().Result;
 
             ViewModel.AvailableBuyers = AvailableBuyers;
             return View(ViewModel);
+
         }
+
 
         //POST: Game/Associate/{Gameid}
         [HttpPost]
@@ -91,7 +104,7 @@ namespace Gamers_Hub.Controllers
             string url = "gamedata/associategamewithbuyer/" + id + "/" + BuyerID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            HttpResponseMessage response = Client.PostAsync(url, content).Result;
 
             return RedirectToAction("Details/" + id);
         }
@@ -103,10 +116,10 @@ namespace Gamers_Hub.Controllers
             //Debug.WriteLine("Unassociate Game :" + id + " with Buyer: " + BuyerID);
 
             //call api to link Game with Buyer
-            string url = "moviedata/unassociategamewithbuyer/" + id + "/" + BuyerID;
+            string url = "gamedata/unassociategamewithbuyer/" + id + "/" + BuyerID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            HttpResponseMessage response = Client.PostAsync(url, content).Result;
 
             return RedirectToAction("Details/" + id);
         }
@@ -124,7 +137,7 @@ namespace Gamers_Hub.Controllers
             //GET api/Genredata/listGenre
 
             string url = "genredata/listgenre";
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            HttpResponseMessage response = Client.GetAsync(url).Result;
             IEnumerable<GenreDto> GenreOptions = response.Content.ReadAsAsync<IEnumerable<GenreDto>>().Result;
 
             return View(GenreOptions);
@@ -146,7 +159,7 @@ namespace Gamers_Hub.Controllers
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
 
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            HttpResponseMessage response = Client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("List");
@@ -164,14 +177,14 @@ namespace Gamers_Hub.Controllers
 
             //the existing Game information
             string url = "gamedata/findgame/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            HttpResponseMessage response = Client.GetAsync(url).Result;
             GameDto SelectedGame = response.Content.ReadAsAsync<GameDto>().Result;
             ViewModel.SelectedGame = SelectedGame;
 
             // all genres to choose from when updating this game
             // the existing game information
             url = "genredata/listgenre/";
-            response = client.GetAsync(url).Result;
+            response = Client.GetAsync(url).Result;
             IEnumerable<GenreDto> GenreOptions = response.Content.ReadAsAsync<IEnumerable<GenreDto>>().Result;
 
             ViewModel.GenreOptions = GenreOptions;
@@ -183,7 +196,7 @@ namespace Gamers_Hub.Controllers
         public ActionResult DeleteConfirm(int id)
         {
             string url = "gamedata/findgame/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            HttpResponseMessage response = Client.GetAsync(url).Result;
             GameDto selectedGame = response.Content.ReadAsAsync<GameDto>().Result;
             return View(selectedGame);
         }
@@ -195,7 +208,7 @@ namespace Gamers_Hub.Controllers
             string url = "gamedata/deletegame/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            HttpResponseMessage response = Client.PostAsync(url, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -223,7 +236,7 @@ namespace Gamers_Hub.Controllers
             string jsonpayload = jss.Serialize(Game);
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            HttpResponseMessage response = Client.PostAsync(url, content).Result;
             Debug.WriteLine(content);
 
 
@@ -239,7 +252,7 @@ namespace Gamers_Hub.Controllers
                 MultipartFormDataContent requestcontent = new MultipartFormDataContent();
                 HttpContent imagecontent = new StreamContent(GamePic.InputStream);
                 requestcontent.Add(imagecontent, "GamePic", GamePic.FileName);
-                response = client.PostAsync(url, requestcontent).Result;
+                response = Client.PostAsync(url, requestcontent).Result;
 
                 return RedirectToAction("List");
             }
