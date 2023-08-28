@@ -1,21 +1,134 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
-<div class="jumbotron">
-    <h1>Gamers Hub</h1>
-    <p class="lead">Gamers Hub is a platform for recording purchases of various games and there buyers.</p>
-    <p><a href="/Game/List" class="btn btn-primary btn-lg">Start &raquo;</a></p>
+<div id="head">
+    <h2>Welcome to the GameHaven</h2>
+    <p>Manage purchases of various games and their buyers.</p>
+    <a href="/Game/List" class="btn btnST">GET STARTED</a>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <p><a class="btn btn-default" href="/Game/List">Games &raquo;</a></p>
+    <div class="grid">
+        <div class="card">
+            <img src="~/Content/Images/Games/default2.jpg" alt="Movie Poster" height="400">
+            <h3>Movies</h3>
+            <a href="/Game/List" class="btn btnST">More Info</a>
+        </div>
+        <div class="card">
+            <img src="~/Content/Images/Games/default3.jpg" alt="Movie Poster" height="400">
+            <h3>Genres</h3>
+            <a href="/Genre/List" class="btn btnST">More Info</a>
+        </div>
+        <div class="card">
+            <img src="~/Content/Images/Games/default5.jpg" alt="Movie Poster" height="400">
+            <h3>Buyers</h3>
+            <a href="/Buyer/List" class="btn btnST">More Info</a>
+        </div>
     </div>
-    <div class="col-md-4">
-        <p><a class="btn btn-default" href="/Genre/List">Genres &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <p><a class="btn btn-default" href="/Buyer/List">Buyer &raquo;</a></p>
-    </div>
-</div>
+
+<style>
+    body {
+        font-family: 'Helvetica Neue', sans-serif;
+        margin: 0;
+        background-color:#000;
+    }
+
+    #head {
+        background-image: url(/Content/Images/Games/default1.jpg);
+        background-size: cover;
+        background-position: center;
+        height: 540px;
+    }
+
+        #head h2 {
+            font-size: 36px;
+            font-weight: 700;
+            text-shadow: 2px 2px #333;
+            margin: 0;
+            padding-top: 1.2em;
+            padding-left: 0.8em;
+            color: azure;
+        }
+
+        #head p {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px #333;
+            color: azure;
+            padding-top: 1.2em;
+            padding-left: 1.3em;
+        }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btnST {
+        background-color: #f44336;
+        color: white;
+    }
+
+        .btnST:hover {
+            background-color: #d32f2f;
+        }
+
+    .grid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background-color: #000;
+        gap: 2em;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px #ccc;
+        padding: 1px;
+        text-align: center;
+        flex:1 1 20%;
+        
+    }
+
+        .card img {
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width:100%;
+            height:auto;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        .card p {
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+    footer {
+        background-color: #000;
+        color: white;
+        text-align: center;
+    }
+
+        footer p {
+            font-size: 1em;
+            font-weight: 200;
+        }
+</style>
