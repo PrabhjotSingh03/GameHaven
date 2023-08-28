@@ -7,6 +7,7 @@
 <div class="container">
     <div class="detailCont">
 
+        
         @{
             string imageurl = "/Content/Images/Games/default.jpg";
             if (Model.SelectedGame.GameHasPic)
@@ -16,10 +17,9 @@
         }
 
         <div class="game-poster">
+            <h2>@Model.SelectedGame.GameName</h2>
             <div><img alt="@Model.SelectedGame.GameName" src="@imageurl" /></div>
         </div>
-
-        <h2>@Model.SelectedGame.GameName</h2>
 
         <div class="assoBuyer">
             <h3>Clients associated with <strong>'@Model.SelectedGame.GameName'</strong></h3>
@@ -86,8 +86,6 @@
     }
 
     h2 {
-        margin-top: 7em;
-        margin-left: 1.5em;
         font-weight: 600;
         font-family: Arial, sans-serif;
         background: #134DED;
@@ -97,10 +95,7 @@
     }
 
     .btnContainer {
-        display: flex;
-        flex-flow: row;
-        justify-content: space-around;
-        margin-top: 5em;
+        margin-top: 1em;
     }
 
     .btn {
@@ -145,18 +140,18 @@
     .container {
         max-width: 100%;
         margin: 0 auto;
-        background-color: #fff;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
     }
 
     .detailCont {
         display: flex;
         flex-flow: row;
+        padding-top: 4em;
+        flex-wrap: wrap;
+        text-align: center;
     }
 
-    .assobuyer {
-        margin-left: 5em;
-        margin-top: 7em;
+    .assoBuyer {
+        flex: 1 1 50%;
     }
 
     #SlctTable {
@@ -168,13 +163,13 @@
 
     .details {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
         justify-content: space-around;
         margin-top: 2em;
         margin-bottom: 1.5em;
         font-weight: 800;
         font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom, #134DED 0%, #21B8CF 100%);
+        background: linear-gradient(to bottom, #110ab0 0%, #21B8CF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -185,12 +180,12 @@
     }
 
     .game-poster {
-        max-width: 300px;
-        margin-right: 30px;
+        flex: 1 1 50%;
     }
 
-        .game-poster img {
-            max-width: 350px;
-        }
+   .game-poster img {
+        max-width: 350px;
+   }
+   
 </style>
 

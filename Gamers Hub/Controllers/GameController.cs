@@ -18,36 +18,10 @@ namespace Gamers_Hub.Controllers
 
         static GameController()
         {
-            HttpClientHandler handler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = false,
-                //cookies are manually set in RequestHeader
-                UseCookies = false
-            };
-
-            Client = new HttpClient(handler);
+            Client = new HttpClient();
             Client.BaseAddress = new Uri("https://localhost:44340/api/");
-
         }
-        private void GetApplicationCookie()
-        {
-            string token = "";
-            //HTTP client is set up to be reused, otherwise it will exhaust server resources.
-            //This is a bit dangerous because a previously authenticated cookie could be cached for
-            //a follow-up request from someone else. Reset cookies in HTTP client before grabbing a new one.
-            Client.DefaultRequestHeaders.Remove("Cookie");
-            if (!User.Identity.IsAuthenticated) return;
-
-            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
-            if (cookie != null) token = cookie.Value;
-
-            //collect token as it is submitted to the controller
-            //use it to pass along to the WebAPI.
-            Debug.WriteLine("Token Submitted is : " + token);
-            if (token != "") Client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
-
-            return;
-        }
+   
         // GET: Game/List
         public ActionResult List()
         {

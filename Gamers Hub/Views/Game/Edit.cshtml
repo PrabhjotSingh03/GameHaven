@@ -7,7 +7,7 @@
 <h1>Gamers Hub</h1>
 <h2>Update A Game</h2>
 
-<form action="/Game/Update/@Model.SelectedGame.GameID" method="POST">
+<form action="/Game/Update/@Model.SelectedGame.GameID" method="POST" enctype="multipart/form-data">
     <div style="display:none;">
         @* Pass through the Game ID *@
         <input type="text" name="GameID" value="@Model.SelectedGame.GameID" />
