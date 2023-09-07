@@ -19,7 +19,7 @@ namespace Gamers_Hub.Controllers
         static GameController()
         {
             Client = new HttpClient();
-            Client.BaseAddress = new Uri("https://localhost:44340/api/");
+            Client.BaseAddress = new Uri("http://ec2-44-217-216-142.compute-1.amazonaws.com/GameHaven/api/");
         }
    
         // GET: Game/List

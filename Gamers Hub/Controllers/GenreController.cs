@@ -19,7 +19,7 @@ namespace Gamers_Hub.Controllers
         static GenreController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44340/api/");
+            client.BaseAddress = new Uri("http://ec2-44-217-216-142.compute-1.amazonaws.com/GameHaven/api/");
         }
 
         // GET: Genre/List
